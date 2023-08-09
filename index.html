@@ -5,9 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="style.css">
-    <script src="javascript.js"></script>
+    <script src="javascript.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <h1 id="title">Calculator</h1>
+    <div id="container">
+        <div id="screen">0</div>
+        <div id="allButtons">
+            <div id="numbers"></div>
+            <div id="operators">
+                <button id="divide" class="button">÷</button>
+                <button id="multiply" class="button">x</button>
+                <button id="subtract" class="button">–</button>
+                <button id="add" class="button">+</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
