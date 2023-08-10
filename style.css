@@ -2,7 +2,7 @@ html, body{
     margin:0;
     height:100%;
     width:100%;
-    text-align:center;
+    text-align:right;
     font-family: 'Lato', sans-serif;
     font-size:5vh;
     display:flex;
@@ -24,15 +24,17 @@ html, body{
     display:flex;
 }
 #totalScreen{
-    width:74vw;
+    width:69vw;
     padding-right:5vw;
-    height:13vh;
+    padding-left:5vw;
+    min-height:13vh;
     background-color:white;
     border:.3vw ridge black;
     border-radius:2vw;
 }
 #equation{
     align-items:flex-start;
+    justify-content:flex-end;
     padding-top:1vh;
     height:5vh;
     font-size:3vh;
@@ -43,6 +45,9 @@ html, body{
 #screen,#equation{
     display:flex;
     justify-content:flex-end;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
     
 }
 
