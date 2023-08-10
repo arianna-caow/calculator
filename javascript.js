@@ -1,6 +1,7 @@
 let num1 = 0;
 let num2 = 0;
 let operator = "";
+let justPressedEqual = false;
 const op = ["÷","×","–","+"];
 
 function add(a, b){
@@ -100,7 +101,8 @@ const c = document.querySelector("#delete");
 let currEquation = "";
 numButtons.forEach((button)=>{
     button.addEventListener('click',()=>{
-        console.log({currEquation});
+        justPressedEqual=false;
+        // console.log({currEquation});
         if (!isNaN(currEquation[currEquation.length-1])){ 
             display.textContent+=button.textContent;
         } else{
@@ -114,11 +116,12 @@ numButtons.forEach((button)=>{
 })
 operators.forEach((button)=>{
     button.addEventListener('click',()=>{
+        justPressedEqual=false;
         if (isNaN(currEquation[currEquation.length-1])){
             currEquation=currEquation.substring(0,currEquation.length-1)
         }
         if(operator!=="" && isNaN(currEquation)){
-            console.log({num1,num2,operator});
+            // console.log({num1,num2,operator});
             num2 = currEquation[currEquation.length-1];
             let solution = operate(operator,Number(num1),Number(num2));
             solution=Math.trunc(solution*1000)/1000;
@@ -132,15 +135,19 @@ operators.forEach((button)=>{
 })
 
 equals.addEventListener('click',()=>{
-    num2 = display.textContent;
-    equation.textContent=num1+operator+num2;
-    console.log({num1,num2,operator});
-    let solution = operate(operator,Number(num1),Number(num2));
-    solution=Math.trunc(solution*1000)/1000;
-    num1=solution.toString();
-    // num2=0;
-    currEquation=num1;
-    display.textContent=solution;
+    if (!justPressedEqual){
+        num2 = display.textContent;
+        equation.textContent=num1+operator+num2;
+        // console.log({num1,num2,operator});
+        let solution = operate(operator,Number(num1),Number(num2));
+        solution=Math.trunc(solution*1000)/1000;
+        num1=solution.toString();
+        // num2=0;
+        currEquation=num1;
+        display.textContent=solution;
+        justPressedEqual=true;
+    }
+    
 })
 allButtons.forEach((button)=>{
     button.addEventListener('click',()=>{
@@ -149,6 +156,7 @@ allButtons.forEach((button)=>{
 })
 
 ac.addEventListener('click',()=>{
+    justPressedEqual=false;
     display.textContent='0';
     equation.textContent='';
     currEquation='';
@@ -158,24 +166,27 @@ ac.addEventListener('click',()=>{
 })
 
 c.addEventListener('click',()=>{
+    //instead if display screen is not empty
     console.log({num1,num2,operator});
-    if(num2==0){
-        display.textContent=display.textContent.substring(0,display.textContent.length-1);
-        equation.textContent=equation.textContent.substring(0,equation.textContent.length-1);
-        currEquation=currEquation.substring(0,currEquation.length-1)
-        console.log(equation.textContent);
-    } else{
-        display.textContent="0";
-        equation.textContent="";
-        currEquation="";
-        num1=0;
-        operator="";
-        num2 = 0;
+    console.log(display.textContent);
+    if (display.textContent.length!==0 && display.textContent!=="0"){
+        if(!justPressedEqual){
+            console.log(display.textContent)
+            if (!op.includes(equation.textContent.substring(equation.textContent.length-1))){
+                display.textContent=display.textContent.substring(0,display.textContent.length-1);
+            }
+            equation.textContent=equation.textContent.substring(0,equation.textContent.length-1);
+            currEquation=currEquation.substring(0,currEquation.length-1)
+            // console.log(equation.textContent);
+        } else{
+            display.textContent="0";
+            equation.textContent="";
+            currEquation="";
+            num1=0;
+            operator="";
+            num2 = 0;
+        }
     }
-    // console.log({num1,num2,operator});
-    //if num1 is 0, backspace
-    //else: clear screen + num2 = 0
     
-    // currEquation=currEquation.substring(0,currEquation.length-1);
-    // equation.textContent=currEquation;
+    
 })
