@@ -100,6 +100,7 @@ const c = document.querySelector("#delete");
 let currEquation = "";
 numButtons.forEach((button)=>{
     button.addEventListener('click',()=>{
+        console.log({currEquation});
         if (!isNaN(currEquation[currEquation.length-1])){ 
             display.textContent+=button.textContent;
         } else{
@@ -133,10 +134,11 @@ operators.forEach((button)=>{
 equals.addEventListener('click',()=>{
     num2 = display.textContent;
     equation.textContent=num1+operator+num2;
-    // console.log({num1,num2,operator});
+    console.log({num1,num2,operator});
     let solution = operate(operator,Number(num1),Number(num2));
     solution=Math.trunc(solution*1000)/1000;
     num1=solution.toString();
+    // num2=0;
     currEquation=num1;
     display.textContent=solution;
 })
@@ -148,6 +150,7 @@ allButtons.forEach((button)=>{
 
 ac.addEventListener('click',()=>{
     display.textContent='0';
+    equation.textContent='';
     currEquation='';
     num1=0;
     num2=0;
@@ -155,10 +158,24 @@ ac.addEventListener('click',()=>{
 })
 
 c.addEventListener('click',()=>{
-    if(num1!==0){
+    console.log({num1,num2,operator});
+    if(num2==0){
         display.textContent=display.textContent.substring(0,display.textContent.length-1);
+        equation.textContent=equation.textContent.substring(0,equation.textContent.length-1);
+        currEquation=currEquation.substring(0,currEquation.length-1)
+        console.log(equation.textContent);
+    } else{
+        display.textContent="0";
+        equation.textContent="";
+        currEquation="";
+        num1=0;
+        operator="";
+        num2 = 0;
     }
+    // console.log({num1,num2,operator});
+    //if num1 is 0, backspace
+    //else: clear screen + num2 = 0
     
-    currEquation=currEquation.substring(0,currEquation.length-1);
-    equation.textContent=currEquation;
+    // currEquation=currEquation.substring(0,currEquation.length-1);
+    // equation.textContent=currEquation;
 })
