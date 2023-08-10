@@ -11,6 +11,7 @@ h1{
 }
 #allButtons{
     display:flex;
+    flex-direction:column;
     justify-content:center;
     border-width:0 0.5vw 0.5vw 0.5vw;
     border-color:gray;
@@ -23,7 +24,9 @@ h1{
 #container{
     align-items:center;
 }
-
+#lowerButtons{
+    display:flex;
+}
 #screen{
     width:75vw;
     padding-right:5vw;
@@ -34,7 +37,7 @@ h1{
     border:0.5vw solid gray;
 }
 .button{
-    all:unset;
+    /* all:unset; */
     width:20vw;
     height:15vh;
     font-size:5vh;

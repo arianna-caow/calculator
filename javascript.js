@@ -28,6 +28,16 @@ function operate (op, n1, n2){
 // console.log(operate("/",1,2))
 
 function createButtons(){
+    const arr = ["%","√","AC","C",];
+    const upper = document.querySelector("#upperButtons");
+
+    for(const char of arr){
+        const b = document.createElement("button");
+        b.innerText=char;
+        b.classList.add("button");
+        upper.appendChild(b);
+    }
+
     const outerContainer = document.querySelector("#numbers");
     for (let i = 7; i >0; i-=3){
         const container = document.createElement("div");
@@ -40,20 +50,15 @@ function createButtons(){
         }
         outerContainer.appendChild(container);
     }
+    const lowArr = ["0",".","="];
     const container = document.createElement("div");
     container.classList.add("row");
-    const zero = document.createElement("button");
-    zero.innerText=0;
-    zero.classList.add("button");
-    container.appendChild(zero);
-    const period = document.createElement("button");
-    period.innerText=".";
-    period.classList.add("button");
-    container.appendChild(period);
-    const equal = document.createElement("button");
-    equal.innerText="=";
-    equal.classList.add("button");
-    container.appendChild(equal);
+    for(const char of lowArr){
+        const b = document.createElement("button");
+        b.innerText=char;
+        b.classList.add("button");
+        container.appendChild(b);
+    }
     outerContainer.appendChild(container);
 }
 
