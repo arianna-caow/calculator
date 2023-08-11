@@ -36,7 +36,7 @@ html, body{
     align-items:flex-start;
     justify-content:flex-end;
     padding-top:1vh;
-    height:5vh;
+    min-height:5vh;
     font-size:3vh;
 }
 #screen{
