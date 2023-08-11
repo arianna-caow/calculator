@@ -222,8 +222,8 @@ c.addEventListener('click',()=>{
 })
 
 signFlip.addEventListener('click',()=>{
-    // console.log({num1,num2,operator});
-    if(operator!=="" || (isNaN(currEquation))){
+    console.log({num1,num2,operator});
+    if((operator!=="" && operator!=="+/–" && operator!=="%")|| (isNaN(currEquation))){
         num2 = currEquation[currEquation.length-1];
         let solution = operate(operator,Number(num1),Number(num2));
         solution=Math.trunc(solution*1000)/1000;
@@ -246,7 +246,7 @@ signFlip.addEventListener('click',()=>{
 
 percent.addEventListener('click',()=>{
     console.log({num1,num2,operator});
-    if(operator!=="" || (isNaN(currEquation))){
+    if((operator!=="" && operator!=="+/–" && operator!=="%")|| (isNaN(currEquation))){
         num2 = currEquation[currEquation.length-1];
         let solution = operate(operator,Number(num1),Number(num2));
         solution=Math.trunc(solution*1000)/1000;
