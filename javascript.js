@@ -15,16 +15,16 @@ let justPressedEqual = false;
 const op = ["÷","×","–","+"];
 
 function add(a, b){
-    return Math.trunc((a+b)*10000)/10000;
+    return Math.trunc((a+b)*1000)/1000;
 }
 function subtract(a, b){
-    return Math.trunc((a-b)*10000)/10000;
+    return Math.trunc((a-b)*1000)/1000;
 }
 function multiply(a,b){
-    return Math.trunc(a*b*10000)/10000;
+    return Math.trunc(a*b*1000)/1000;
 }
 function divide(a,b){
-    return Math.trunc(a/b*10000)/10000;
+    return Math.trunc(a/b*1000)/1000;
 }
 
 function operate (op, n1, n2){
