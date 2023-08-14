@@ -9,14 +9,16 @@ html, body{
     flex-direction:column;
     align-items:center;
     justify-content:center;
+    background-color:#ffffee;
 }
 
 #container{
     width:80vw;
+    max-width:50vh;
     display:flex;
     flex-direction: column;
-    border:4vw solid gray;
-    border-radius: 4vw;
+    border: min(4vw, 4vh) solid gray;
+    border-radius: min(4vw, 4vh);
     background-color:gray;
     gap:2vh;
 }
@@ -25,12 +27,13 @@ html, body{
 }
 #totalScreen{
     width:69vw;
-    padding-right:5vw;
-    padding-left:5vw;
+    max-width: calc(50vh - 6.6vw);
+    padding-right: 3vw;
+    padding-left: 3vw;
     min-height:13vh;
     background-color:white;
     border:.3vw ridge black;
-    border-radius:2vw;
+    border-radius: min(2vw, 2vh);
 }
 #equation{
     align-items:flex-start;
@@ -54,7 +57,7 @@ html, body{
 #allButtons{
     display:flex;
     flex-direction:column;
-    justify-content:space-evenly;
+    /* justify-content:space-evenly; */
 }
 
 #allButtons, .row{
@@ -67,7 +70,7 @@ html, body{
     width:20vw;
     height:10vh;
     font-size:5vh;
-    border-radius:2vw;
+    border-radius: min(2vw, 2vh);
     background-color:#D3D3D3;
     font-family: 'Lato', sans-serif;
 }

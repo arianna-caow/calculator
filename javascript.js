@@ -1,10 +1,10 @@
 /*
 Things to work on:
-- full screen on laptop; width too wide
-- .
-✔ %,√
-- button hover change color slightly
-- keyboard input
+    ✔ full screen on laptop; width too wide
+    - .
+    ✔ %,√
+    ✔ button hover change color slightly
+    - keyboard input
 */
 
 
@@ -194,6 +194,13 @@ allButtons.forEach((button)=>{
     button.addEventListener('click',()=>{
         equation.textContent=currEquation;
     })
+    let color = button.style.backgroundColor;
+    button.addEventListener('mouseover',()=>{
+        button.style.backgroundColor="#987d84";
+    })
+    button.addEventListener('mouseout',()=>{
+        button.style.backgroundColor=color;
+    })
 })
 
 ac.addEventListener('click',()=>{
@@ -267,3 +274,15 @@ percent.addEventListener('click',()=>{
     justPressedEqual=true;
 
 })
+
+document.addEventListener('keydown', (event) => {
+    var name = event.key;
+    const userOp = ["/","x","*","-","+","%"];
+    //name = "Backspace","Enter";
+    if (!isNaN(name)){
+        console.log(`Number pressed ${name}`);
+    }
+    else if (userOp.includes(name)){
+        console.log(`Operator pressed ${name}`);
+    }
+  }, false);
