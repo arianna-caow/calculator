@@ -2,9 +2,9 @@
 Things to work on:
     ✔ full screen on laptop; width too wide
     - .
-    ✔ %,√
+    ✔ % √
     ✔ button hover change color slightly
-    - keyboard input
+    ✔ keyboard input
 */
 
 
@@ -15,16 +15,16 @@ let justPressedEqual = false;
 const op = ["÷","×","–","+"];
 
 function add(a, b){
-    return a+b;
+    return Math.trunc((a+b)*10000)/10000;
 }
 function subtract(a, b){
-    return a-b;
+    return Math.trunc((a-b)*10000)/10000;
 }
 function multiply(a,b){
-    return a*b;
+    return Math.trunc(a*b*10000)/10000;
 }
 function divide(a,b){
-    return Math.trunc(a/b*1000)/1000;
+    return Math.trunc(a/b*10000)/10000;
 }
 
 function operate (op, n1, n2){
@@ -97,8 +97,10 @@ function createButtons(){
         if (char==="0"){
             b.classList.add("number");
             b.setAttribute('id',0);
+        } else if (char==="."){
+            b.setAttribute('id',"dot");
         }
-        if (char==="+"){
+        else if (char==="+"){
             b.classList.add("operator");
             b.setAttribute('id',"+");
             b.style.backgroundColor="#B7C9E2";
@@ -133,11 +135,12 @@ const ac = document.querySelector("#all-clear");
 const c = document.querySelector("#delete");
 const signFlip = document.querySelector('#flip-sign');
 const percent = document.querySelector('#percent');
+const point = document.querySelector('#dot');
 
 function number(button){
     justPressedEqual=false;
     console.log({currEquation});
-    if (!isNaN(currEquation[currEquation.length-1])){ 
+    if (!isNaN(currEquation[currEquation.length-1]) || currEquation[currEquation.length-1]=="."){ //previous input is not a number
         display.textContent+=button.textContent;
     } else{
         if(num1==0){
@@ -230,7 +233,24 @@ function percentFunc(){
     console.log({num1,num2,operator});
     justPressedEqual=true;
 }
-
+function pointFunc(){
+    if (!display.textContent.includes(".")){
+    // if number doesn't have a period already and equation does not have an operator already
+    // doesn't account for has operator and period already
+        justPressedEqual=false;
+        console.log({currEquation});
+        display.textContent+=".";  
+        currEquation+=".";
+        equation.textContent=currEquation; 
+    } else if (isNaN(currEquation[currEquation.length-1])){
+        if (currEquation[currEquation.length-1]!=="."){
+            justPressedEqual=false;
+            display.textContent=".";
+            currEquation+=".";
+            equation.textContent=currEquation; 
+        }
+    } 
+}
 let currEquation = "";
 numButtons.forEach((button)=>{
     button.addEventListener('click',()=>{
@@ -257,15 +277,12 @@ allButtons.forEach((button)=>{
         button.style.backgroundColor=color;
     })
 })
-
 ac.addEventListener('click',()=>{
     clearAll();
 })
-
 c.addEventListener('click',()=>{
     deleteFunc();
 })
-
 signFlip.addEventListener('click',()=>{
     console.log({num1,num2,operator});
     if((operator!=="" && operator!=="+/–" && operator!=="%")|| (isNaN(currEquation))){
@@ -288,14 +305,17 @@ signFlip.addEventListener('click',()=>{
     justPressedEqual=true;
 
 })
-
 percent.addEventListener('click',()=>{
     percentFunc();
+})
+point.addEventListener('click',()=>{
+    pointFunc();
 })
 
 document.addEventListener('keydown', (event) => {
     var name = event.key;
     const userOp = ["/","x","*","-","+"];
+    console.log(name);
     //name = "Backspace","Enter";
     if (!isNaN(name)){
         console.log(`Number pressed ${name}`);
@@ -325,5 +345,8 @@ document.addEventListener('keydown', (event) => {
     } else if (name=="%"){
         console.log("Percent");
         percentFunc();
+    } else if (name=="."){
+        console.log("Period");
+        pointFunc();
     }
   }, false);
