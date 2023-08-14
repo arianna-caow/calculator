@@ -81,6 +81,7 @@ function createButtons(){
         operator.innerText=(op[count]);
         operator.classList.add("button");
         operator.classList.add("operator");
+        operator.setAttribute('id',op[count]);
         operator.style.backgroundColor="#B7C9E2";
         container.appendChild(operator);
         outerContainer.appendChild(container);
@@ -99,6 +100,7 @@ function createButtons(){
         }
         if (char==="+"){
             b.classList.add("operator");
+            b.setAttribute('id',"+");
             b.style.backgroundColor="#B7C9E2";
         } else if (char==="="){
             b.setAttribute('id',"equals");
@@ -144,6 +146,7 @@ function number(button){
         display.textContent=button.textContent;
     }
     currEquation+=button.textContent;
+    equation.textContent=currEquation;
 }
 function operatorFunc(button){
     justPressedEqual=false;
@@ -151,7 +154,6 @@ function operatorFunc(button){
         currEquation=currEquation.substring(0,currEquation.length-1)
     }
     if(operator!=="" && isNaN(currEquation)){
-        // console.log({num1,num2,operator});
         num2 = currEquation[currEquation.length-1];
         let solution = operate(operator,Number(num1),Number(num2));
         solution=Math.trunc(solution*1000)/1000;
@@ -161,6 +163,7 @@ function operatorFunc(button){
     }
     operator=button.textContent;
     currEquation+=button.textContent;
+    equation.textContent=currEquation;
 }
 function equalFunc(){
     console.log({num1,num2,operator});
@@ -292,7 +295,7 @@ percent.addEventListener('click',()=>{
 
 document.addEventListener('keydown', (event) => {
     var name = event.key;
-    const userOp = ["/","x","*","-","+","%"];
+    const userOp = ["/","x","*","-","+"];
     //name = "Backspace","Enter";
     if (!isNaN(name)){
         console.log(`Number pressed ${name}`);
@@ -300,5 +303,27 @@ document.addEventListener('keydown', (event) => {
     }
     else if (userOp.includes(name)){
         console.log(`Operator pressed ${name}`);
+        console.log(event);
+        let id = "";
+        if (name=="*" || name=="x"){
+            id = "×";
+        } else if (name=="-"){
+            id="–";
+        } else if (name=="/"){
+            id="÷";
+        } else if (name=="+"){
+            id="+";
+        }
+        console.log(document.getElementById(id));
+        operatorFunc(document.getElementById(id));
+    } else if (name=="Backspace"){
+        console.log(`Backspace`);
+        deleteFunc();
+    } else if (name=="Enter" || name=="="){
+        console.log("Enter");
+        equalFunc();
+    } else if (name=="%"){
+        console.log("Percent");
+        percentFunc();
     }
   }, false);
