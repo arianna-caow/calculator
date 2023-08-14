@@ -74,6 +74,7 @@ function createButtons(){
             numButton.innerText=(i+j);
             numButton.classList.add("button");
             numButton.classList.add("number");
+            numButton.setAttribute('id',i+j);
             container.appendChild(numButton);
         }
         const operator = document.createElement("button");
@@ -94,6 +95,7 @@ function createButtons(){
         b.classList.add("button");
         if (char==="0"){
             b.classList.add("number");
+            b.setAttribute('id',0);
         }
         if (char==="+"){
             b.classList.add("operator");
@@ -130,65 +132,115 @@ const c = document.querySelector("#delete");
 const signFlip = document.querySelector('#flip-sign');
 const percent = document.querySelector('#percent');
 
+function number(button){
+    justPressedEqual=false;
+    console.log({currEquation});
+    if (!isNaN(currEquation[currEquation.length-1])){ 
+        display.textContent+=button.textContent;
+    } else{
+        if(num1==0){
+            num1=currEquation.substring(0,currEquation.length-1);
+        }
+        display.textContent=button.textContent;
+    }
+    currEquation+=button.textContent;
+}
+function operatorFunc(button){
+    justPressedEqual=false;
+    if (isNaN(currEquation[currEquation.length-1])){
+        currEquation=currEquation.substring(0,currEquation.length-1)
+    }
+    if(operator!=="" && isNaN(currEquation)){
+        // console.log({num1,num2,operator});
+        num2 = currEquation[currEquation.length-1];
+        let solution = operate(operator,Number(num1),Number(num2));
+        solution=Math.trunc(solution*1000)/1000;
+        num1= solution.toString();
+        currEquation=num1;
+        display.textContent=solution;
+    }
+    operator=button.textContent;
+    currEquation+=button.textContent;
+}
+function equalFunc(){
+    console.log({num1,num2,operator});
+    // divide 0 goes to Infinity
+    if (num1!==''){
+    let solution="";
+    if (!justPressedEqual){
+        num2 = display.textContent;
+        equation.textContent=num1+operator+num2;
+        currEquation=num1+operator+num2;
+        solution = operate(operator,Number(num1),Number(num2));
+        num1=solution.toString();
+        currEquation=num1;
+    } else if (operator!=="+/–" && operator!=="%"){
+        equation.textContent=num1+operator+num2;
+        currEquation=num1+operator+num2;
+        solution = operate(operator,Number(num1),Number(num2));
+        num1=solution.toString();
+    }
+    
+    display.textContent=solution;
+    justPressedEqual=true;
+    }
+}
+function deleteFunc(){
+    //doesn't work if you write a number immediately after deleting operator
+    console.log({num1,num2,operator});
+    console.log(display.textContent);
+    if (display.textContent.length!==0 && display.textContent!=="0" ){
+        if(!justPressedEqual && currEquation!==num1){ 
+            console.log(display.textContent)
+            if (!op.includes(equation.textContent.substring(equation.textContent.length-1))){
+                display.textContent=display.textContent.substring(0,display.textContent.length-1);
+            }
+            equation.textContent=equation.textContent.substring(0,equation.textContent.length-1);
+            currEquation=currEquation.substring(0,currEquation.length-1)
+            // console.log(equation.textContent);
+        } else if (!isNaN(currEquation)){
+            clearAll();
+        }
+    } else{
+        clearAll();
+    }
+}
+function percentFunc(){
+    console.log({num1,num2,operator});
+    if((operator!=="" && operator!=="+/–" && operator!=="%")|| (isNaN(currEquation))){
+        num2 = currEquation[currEquation.length-1];
+        let solution = operate(operator,Number(num1),Number(num2));
+        solution=Math.trunc(solution*1000)/1000;
+        num1= solution.toString();
+        currEquation=num1;
+    } else{
+        num1=display.textContent;
+    }
+    console.log({num1,num2,operator});
+    let currNum=num1/100;
+    clearAll();
+    display.textContent=currNum;
+    equation.textContent=currNum*100+"%";
+    num1=currNum.toString();
+    currEquation=num1;
+    operator="%";
+    console.log({num1,num2,operator});
+    justPressedEqual=true;
+}
+
 let currEquation = "";
 numButtons.forEach((button)=>{
     button.addEventListener('click',()=>{
-        justPressedEqual=false;
-        // console.log({currEquation});
-        if (!isNaN(currEquation[currEquation.length-1])){ 
-            display.textContent+=button.textContent;
-        } else{
-            if(num1==0){
-                num1=currEquation.substring(0,currEquation.length-1);
-            }
-            display.textContent=button.textContent;
-        }
-        currEquation+=button.textContent;
+        number(button);
     })
 })
 operators.forEach((button)=>{
     button.addEventListener('click',()=>{
-        justPressedEqual=false;
-        if (isNaN(currEquation[currEquation.length-1])){
-            currEquation=currEquation.substring(0,currEquation.length-1)
-        }
-        if(operator!=="" && isNaN(currEquation)){
-            // console.log({num1,num2,operator});
-            num2 = currEquation[currEquation.length-1];
-            let solution = operate(operator,Number(num1),Number(num2));
-            solution=Math.trunc(solution*1000)/1000;
-            num1= solution.toString();
-            currEquation=num1;
-            display.textContent=solution;
-        }
-        operator=button.textContent;
-        currEquation+=button.textContent;
+        operatorFunc(button);
     })
 })
-
 equals.addEventListener('click',()=>{
-    console.log({num1,num2,operator});
-    // divide 0 goes to Infinity
-    if (num1!==''){
-        let solution="";
-        if (!justPressedEqual){
-            num2 = display.textContent;
-            equation.textContent=num1+operator+num2;
-            currEquation=num1+operator+num2;
-            solution = operate(operator,Number(num1),Number(num2));
-            num1=solution.toString();
-            currEquation=num1;
-        } else if (operator!=="+/–" && operator!=="%"){
-            equation.textContent=num1+operator+num2;
-            currEquation=num1+operator+num2;
-            solution = operate(operator,Number(num1),Number(num2));
-            num1=solution.toString();
-        }
-        
-        display.textContent=solution;
-        justPressedEqual=true;
-        // console.log({num1,num2,operator});
-    }
+    equalFunc();
 })
 allButtons.forEach((button)=>{
     button.addEventListener('click',()=>{
@@ -208,24 +260,7 @@ ac.addEventListener('click',()=>{
 })
 
 c.addEventListener('click',()=>{
-    //doesn't work if you write a number immediately after deleting operator
-    console.log({num1,num2,operator});
-    console.log(display.textContent);
-    if (display.textContent.length!==0 && display.textContent!=="0" ){
-        if(!justPressedEqual && currEquation!==num1){ 
-            console.log(display.textContent)
-            if (!op.includes(equation.textContent.substring(equation.textContent.length-1))){
-                display.textContent=display.textContent.substring(0,display.textContent.length-1);
-            }
-            equation.textContent=equation.textContent.substring(0,equation.textContent.length-1);
-            currEquation=currEquation.substring(0,currEquation.length-1)
-            // console.log(equation.textContent);
-        } else if (!isNaN(currEquation)){
-            clearAll();
-        }
-    } else{
-        clearAll();
-    }
+    deleteFunc();
 })
 
 signFlip.addEventListener('click',()=>{
@@ -252,27 +287,7 @@ signFlip.addEventListener('click',()=>{
 })
 
 percent.addEventListener('click',()=>{
-    console.log({num1,num2,operator});
-    if((operator!=="" && operator!=="+/–" && operator!=="%")|| (isNaN(currEquation))){
-        num2 = currEquation[currEquation.length-1];
-        let solution = operate(operator,Number(num1),Number(num2));
-        solution=Math.trunc(solution*1000)/1000;
-        num1= solution.toString();
-        currEquation=num1;
-    } else{
-        num1=display.textContent;
-    }
-    console.log({num1,num2,operator});
-    let currNum=num1/100;
-    clearAll();
-    display.textContent=currNum;
-    equation.textContent=currNum*100+"%";
-    num1=currNum.toString();
-    currEquation=num1;
-    operator="%";
-    console.log({num1,num2,operator});
-    justPressedEqual=true;
-
+    percentFunc();
 })
 
 document.addEventListener('keydown', (event) => {
@@ -281,6 +296,7 @@ document.addEventListener('keydown', (event) => {
     //name = "Backspace","Enter";
     if (!isNaN(name)){
         console.log(`Number pressed ${name}`);
+        number(document.getElementById(name));
     }
     else if (userOp.includes(name)){
         console.log(`Operator pressed ${name}`);
